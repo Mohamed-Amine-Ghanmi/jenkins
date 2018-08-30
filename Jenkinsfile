@@ -1,3 +1,6 @@
+#!/bin/groovy
+def userInput
+
 pipeline {
     agent any
     
@@ -7,7 +10,6 @@ pipeline {
     }
     
     stages {
-        userInput=''
         stage('Build') {
             steps { echo 'Building..' }
         }
