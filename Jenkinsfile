@@ -19,29 +19,27 @@ pipeline {
                 script {
                    def userInput = input(id: 'userInput', message: 'Merge to?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
-                       description:'describing choices', name:'nameChoice', choices: "QA\nUAT\nProduction\nDevelop\nMaster"]
+                       description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
                     ])
-
-               println(userInput); //Use this value to branch to different logic if needed
                  }
             }
         }
         stage('Test') {
-            when { expression { params.env == 'test' } }
+            when { expression { params.env == 'test' || userInput == 'test' } }
             steps {  echo 'Deploying....' }
         }
         stage('Demo Approval') {
             steps { input 'Deploy to Demo?' }
         }
         stage('Demo') {
-            when { expression { params.env == 'Demo' } }
+            when { expression { params.env == 'Demo' || userInput == 'demo' } }
             steps { echo 'Deploying....' }
         }
         stage('Approval') {
             steps { input 'Deploy to Production?' }
         }
         stage('Production') {
-             when { expression { params.env == 'production' } }
+             when { expression { params.env == 'production' || userInput == 'production' } }
              steps {  echo 'Deploying....' }     
          }        
     }
