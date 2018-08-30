@@ -17,7 +17,7 @@ pipeline {
             when { expression { params.env == 'dev' } }
             steps { 
                 echo 'Dev..'
-                dir ('subdir') {
+                dir ('/tmp/Hello_world_Assignement') {
                     sh "echo 'yes' | ./scripts/Build_Deploy_S3_Lambda_Apigw.sh ${params.env} ${params.version}"
                 }
             }
