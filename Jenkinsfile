@@ -1,6 +1,7 @@
 pipeline {
     agent any
-
+    def userInput
+    
     parameters {
         choice(choices: 'dev\ntest\ndemo\nproduction', description: '', name: 'env')
         string(name: 'App Version', defaultValue: '1.0.0', description: 'App version To Depoy')
@@ -17,7 +18,7 @@ pipeline {
         stage('Test Approval') {
             steps {
                 script {
-                   def userInput = input(id: 'userInput', message: 'Merge to Test?',
+                   userInput = input(id: 'userInput', message: 'Merge to Test?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
                        description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
                     ])
@@ -31,7 +32,7 @@ pipeline {
         stage('Demo Approval') {
             steps {
                 script {
-                   def userInput = input(id: 'userInput', message: 'Merge to Demo ?',
+                   userInput = input(id: 'userInput', message: 'Merge to Demo ?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
                        description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
                     ])
@@ -45,7 +46,7 @@ pipeline {
         stage('Approval') {
             steps {
                 script {
-                   def userInput = input(id: 'userInput', message: 'Merge to Production ?',
+                   userInput = input(id: 'userInput', message: 'Merge to Production ?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
                        description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
                     ])
