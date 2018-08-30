@@ -18,7 +18,6 @@ pipeline {
             steps { 
                 echo 'Dev..'
                 dir ('/tmp/Hello_world_Assignement') {
-                    sh "./scripts/install_dependecies.sh"
                     sh "echo 'yes' | ./scripts/Build_Deploy_S3_Lambda_Apigw.sh ${params.env} ${params.version}"
                 }
             }
