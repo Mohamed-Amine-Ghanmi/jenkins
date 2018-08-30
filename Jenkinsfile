@@ -23,7 +23,7 @@ pipeline {
                 script {
                    userInput = input(id: 'userInput', message: 'Merge to Test?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
-                       description:'describing choices', name:'TestChoice', choices: "skip-Next\ntest\ndemo\nproduction"]
+                       description:'describing choices', name:'TestChoice', choices: "finish\ntest\ndemo\nproduction"]
                     ])
                  }
             }
@@ -38,7 +38,7 @@ pipeline {
                 script {
                    userInput = input(id: 'userInput', message: 'Merge to Demo ?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
-                       description:'describing choices', name:'DemoChoice', choices: "skip-Next\ndemo\nproduction"]
+                       description:'describing choices', name:'DemoChoice', choices: "finish\ndemo\nproduction"]
                     ])
                  }
             }
@@ -53,7 +53,7 @@ pipeline {
                 script {
                    userInput = input(id: 'userInput', message: 'Merge to Production ?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
-                       description:'describing choices', name:'Choice', choices: "skip-Next\nproduction"]
+                       description:'describing choices', name:'Choice', choices: "finish\nproduction"]
                     ])
                  }
             }
