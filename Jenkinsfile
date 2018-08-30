@@ -8,52 +8,32 @@ pipeline {
     
     stages {
         stage('Build') {
-            steps {
-                echo 'Building..'
-            }
+            steps { echo 'Building..' }
         }
         stage('Dev') {
-            when {
-                // Only say hello if a "greeting" is requested
-                expression { params.env == 'dev' }
-            }
-            steps {
-                echo 'Testing..'
-            }
+            when { expression { params.env == 'dev' } }
+            steps { echo 'Testing..' }
+        }
+        stage('Test Approval') {
+            steps { input 'Deploy to Production?' }
         }
         stage('Test') {
-            when {
-                // Only say hello if a "greeting" is requested
-                expression { params.env == 'test' }
-            }
-            steps {
-                echo 'Deploying....'
-            }
-        }
-        stage('Demo') {
-            when {
-                // Only say hello if a "greeting" is requested
-                expression { params.env == 'Demo' }
-            }
-            steps {
-                echo 'Deploying....'
-            }
+            when { expression { params.env == 'test' } }
+            steps {  echo 'Deploying....' }
         }
         stage('Approval') {
-            steps {
-                 input 'Deploy to Production?'
-            }
+            steps { input 'Deploy to Production?' }
+        }
+        stage('Demo') {
+            when { expression { params.env == 'Demo' } }
+            steps { echo 'Deploying....' }
+        }
+        stage('Approval') {
+            steps { input 'Deploy to Production?' }
         }
         stage('Production') {
-             when {
-                  // Only say hello if a "greeting" is requested
-                  expression { params.env == 'production' }
-             }
-             steps {
-                timeout(time: 1, unit: 'MINUTES') {
-                    input 'Deploy to Production?'
-                }
-             }     
+             when { expression { params.env == 'production' } }
+             steps {  echo 'Deploying....' }     
          }        
     }
 }
