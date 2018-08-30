@@ -15,7 +15,9 @@ pipeline {
             steps { echo 'Testing..' }
         }
         stage('Test Approval') {
-            steps { input 'Deploy to Production?' }
+            steps { def response = input(message: 'Deploy to Test?', ok: 'Yes', 
+                        parameters: [booleanParam(defaultValue: true, 
+                        description: 'If you like Java, just push the button',name: 'Yes?')]) }
         }
         stage('Test') {
             when { expression { params.env == 'test' } }
