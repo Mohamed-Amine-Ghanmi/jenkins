@@ -44,19 +44,16 @@ pipeline {
                  input 'Deploy to Production?'
             }
         }
-        node {
-            stage('Production') {
-                when {
-                    // Only say hello if a "greeting" is requested
-                    expression { params.env == 'production' }
+        stage('Production') {
+             when {
+                  // Only say hello if a "greeting" is requested
+                  expression { params.env == 'production' }
+             }
+             steps {
+                timeout(time: 1, unit: 'MINUTES') {
+                    input 'Deploy to Production?'
                 }
-                steps {
-                    timeout(time: 1, unit: 'MINUTES') {
-                        input 'Deploy to Production?'
-                    }
-                }     
-            }
-        }
-        
+             }     
+         }        
     }
 }
