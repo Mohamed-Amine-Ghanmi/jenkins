@@ -17,7 +17,7 @@ pipeline {
         stage('Test Approval') {
             steps {
                 script {
-                   def userInput = input(id: 'userInput', message: 'Merge to?',
+                   def userInput = input(id: 'userInput', message: 'Merge to Test?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
                        description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
                     ])
@@ -29,14 +29,28 @@ pipeline {
             steps {  echo 'Deploying....' }
         }
         stage('Demo Approval') {
-            steps { input 'Deploy to Demo?' }
+            steps {
+                script {
+                   def userInput = input(id: 'userInput', message: 'Merge to Demo ?',
+                   parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
+                       description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
+                    ])
+                 }
+            }
         }
         stage('Demo') {
             when { expression { params.env == 'Demo' || userInput == 'demo' } }
             steps { echo 'Deploying....' }
         }
         stage('Approval') {
-            steps { input 'Deploy to Production?' }
+            steps {
+                script {
+                   def userInput = input(id: 'userInput', message: 'Merge to Production ?',
+                   parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
+                       description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
+                    ])
+                 }
+            }
         }
         stage('Production') {
              when { expression { params.env == 'production' || userInput == 'production' } }
