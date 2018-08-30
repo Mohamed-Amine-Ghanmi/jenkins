@@ -30,8 +30,8 @@ pipeline {
             when { expression { params.env == 'test' } }
             steps {  echo 'Deploying....' }
         }
-        stage('Approval') {
-            steps { input 'Deploy to Production?' }
+        stage('Demo Approval') {
+            steps { input 'Deploy to Demo?' }
         }
         stage('Demo') {
             when { expression { params.env == 'Demo' } }
