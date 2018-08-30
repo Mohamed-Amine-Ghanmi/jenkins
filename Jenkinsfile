@@ -18,7 +18,7 @@ pipeline {
             steps { 
                 echo 'Dev..'
                 dir ('subdir') {
-                    sh 'echo 'yes' | ./scripts/Build_Deploy_S3_Lambda_Apigw.sh ${params.env} ${params.version}'
+                    sh "echo 'yes' | ./scripts/Build_Deploy_S3_Lambda_Apigw.sh ${params.env} ${params.version}"
                 }
             }
         }
