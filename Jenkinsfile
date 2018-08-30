@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    def userInput
     
     parameters {
         choice(choices: 'dev\ntest\ndemo\nproduction', description: '', name: 'env')
@@ -18,7 +17,7 @@ pipeline {
         stage('Test Approval') {
             steps {
                 script {
-                   userInput = input(id: 'userInput', message: 'Merge to Test?',
+                   def userInput1 = input(id: 'userInput1', message: 'Merge to Test?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
                        description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
                     ])
@@ -26,13 +25,13 @@ pipeline {
             }
         }
         stage('Test') {
-            when { expression { params.env == 'test' || userInput == 'test' } }
+            when { expression { params.env == 'test' || userInput1 == 'test' } }
             steps {  echo 'Deploying....' }
         }
         stage('Demo Approval') {
             steps {
                 script {
-                   userInput = input(id: 'userInput', message: 'Merge to Demo ?',
+                   def userInput2 = input(id: 'userInput2', message: 'Merge to Demo ?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
                        description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
                     ])
@@ -40,13 +39,13 @@ pipeline {
             }
         }
         stage('Demo') {
-            when { expression { params.env == 'Demo' || userInput == 'demo' } }
+            when { expression { params.env == 'Demo' || userInput2 == 'demo' } }
             steps { echo 'Deploying....' }
         }
         stage('Approval') {
             steps {
                 script {
-                   userInput = input(id: 'userInput', message: 'Merge to Production ?',
+                   def userInput3 = input(id: 'userInput3', message: 'Merge to Production ?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
                        description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
                     ])
@@ -54,7 +53,7 @@ pipeline {
             }
         }
         stage('Production') {
-             when { expression { params.env == 'production' || userInput == 'production' } }
+             when { expression { params.env == 'production' || userInput3 == 'production' } }
              steps {  echo 'Deploying....' }     
          }        
     }
