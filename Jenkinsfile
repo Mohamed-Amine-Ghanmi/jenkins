@@ -18,6 +18,7 @@ pipeline {
             steps { echo 'Testing..' }
         }
         stage('Test Approval') {
+            when { expression { params.env == 'dev' } }
             steps {
                 script {
                    userInput = input(id: 'userInput', message: 'Merge to Test?',
@@ -33,6 +34,7 @@ pipeline {
             steps {  echo 'Deploying....' }
         }
         stage('Demo Approval') {
+            when { expression { params.env == 'dev' || params.env == 'test' } }
             steps {
                 script {
                    userInput = input(id: 'userInput', message: 'Merge to Demo ?',
@@ -47,6 +49,7 @@ pipeline {
             steps { echo 'Deploying....' }
         }
         stage('Approval') {
+            when { expression { params.env == 'dev' || params.env == 'test'  || params.env == 'demo' } }
             steps {
                 script {
                    userInput = input(id: 'userInput', message: 'Merge to Production ?',
