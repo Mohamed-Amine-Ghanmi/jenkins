@@ -7,7 +7,7 @@ pipeline {
     }
     
     stages {
-        def userInput
+        userInput=''
         stage('Build') {
             steps { echo 'Building..' }
         }
