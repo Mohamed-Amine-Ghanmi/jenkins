@@ -15,9 +15,16 @@ pipeline {
             steps { echo 'Testing..' }
         }
         stage('Test Approval') {
-            steps { def response = input(message: 'Deploy to Test?', ok: 'Yes', 
-                        parameters: [booleanParam(defaultValue: true, 
-                        description: 'If you like Java, just push the button',name: 'Yes?')]) }
+            steps {
+                script {
+                   def userInput = input(id: 'userInput', message: 'Merge to?',
+                   parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
+                       description:'describing choices', name:'nameChoice', choices: "QA\nUAT\nProduction\nDevelop\nMaster"]
+                    ])
+
+               println(userInput); //Use this value to branch to different logic if needed
+                 }
+            }
         }
         stage('Test') {
             when { expression { params.env == 'test' } }
