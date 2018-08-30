@@ -4,8 +4,22 @@ pipeline {
     parameters {
         string(name: 'Greeting', defaultValue: 'Hello', description: 'How should I greet the world?')
     }
+    
+    parameters {
+        choice(
+            // choices are a string of newline separated values
+            // https://issues.jenkins-ci.org/browse/JENKINS-41180
+            choices: 'dev\ntest\ndemo\nproduction',
+            description: '',
+            name: 'env')
+    }
+    
     stages {
         stage('Example') {
+            when {
+                // Only say hello if a "greeting" is requested
+                expression { params.env == 'dev' }
+            }
             steps {
                 echo "${params.Greeting} World!"
             }
