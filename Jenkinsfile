@@ -3,9 +3,6 @@ pipeline {
 
     parameters {
         string(name: 'Greeting', defaultValue: 'Hello', description: 'How should I greet the world?')
-    }
-    
-    parameters {
         choice(
             // choices are a string of newline separated values
             // https://issues.jenkins-ci.org/browse/JENKINS-41180
