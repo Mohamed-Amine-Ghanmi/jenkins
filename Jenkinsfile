@@ -32,7 +32,7 @@ pipeline {
         }
         stage('Production') {
             steps {
-                timeout(time: 1, unit: 'SECONDS') {
+                timeout(time: 1, unit: 'MINUTES') {
                     input 'Deploy to Production?'
                 }
             }     
