@@ -22,7 +22,7 @@ pipeline {
                        description:'describing choices', name:'TestChoice', choices: "test\ndemo\nproduction"]
                     ])
                  }
-                echo '$userInput'
+                echo "${userInput}"
             }
         }
         stage('Test') {
