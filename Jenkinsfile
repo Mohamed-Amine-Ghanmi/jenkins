@@ -17,43 +17,43 @@ pipeline {
         stage('Test Approval') {
             steps {
                 script {
-                   def userInput1 = input(id: 'userInput1', message: 'Merge to Test?',
+                   def userInput = input(id: 'userInput', message: 'Merge to Test?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
-                       description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
+                       description:'describing choices', name:'TestChoice', choices: "test\ndemo\nproduction"]
                     ])
                  }
             }
         }
         stage('Test') {
-            when { expression { params.env == 'test' || userInput1 == 'test' } }
+            when { expression { params.env == 'test' || userInput['TestChoice'] == 'test' } }
             steps {  echo 'Deploying....' }
         }
         stage('Demo Approval') {
             steps {
                 script {
-                   def userInput2 = input(id: 'userInput2', message: 'Merge to Demo ?',
+                   def userInput = input(id: 'userInput', message: 'Merge to Demo ?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
-                       description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
+                       description:'describing choices', name:'DemoChoice', choices: "test\ndemo\nproduction"]
                     ])
                  }
             }
         }
         stage('Demo') {
-            when { expression { params.env == 'Demo' || userInput2 == 'demo' } }
+            when { expression { params.env == 'Demo' || userInput['DemoChoice'] == 'demo' } }
             steps { echo 'Deploying....' }
         }
         stage('Approval') {
             steps {
                 script {
-                   def userInput3 = input(id: 'userInput3', message: 'Merge to Production ?',
+                   def userInput = input(id: 'userInput', message: 'Merge to Production ?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
-                       description:'describing choices', name:'nameChoice', choices: "test\ndemo\nproduction"]
+                       description:'describing choices', name:'Choice', choices: "test\ndemo\nproduction"]
                     ])
                  }
             }
         }
         stage('Production') {
-             when { expression { params.env == 'production' || userInput3 == 'production' } }
+             when { expression { params.env == 'production' || userInput['Choice'] == 'production' } }
              steps {  echo 'Deploying....' }     
          }        
     }
