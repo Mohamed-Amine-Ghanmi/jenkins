@@ -23,10 +23,9 @@ pipeline {
                 script {
                    userInput = input(id: 'userInput', message: 'Merge to Test?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
-                       description:'describing choices', name:'TestChoice', choices: "test\ndemo\nproduction"]
+                       description:'describing choices', name:'TestChoice', choices: "skip-Next\ntest\ndemo\nproduction"]
                     ])
                  }
-                echo "${userInput}"
             }
         }
         stage('Test') {
@@ -34,27 +33,27 @@ pipeline {
             steps {  echo 'Deploying....' }
         }
         stage('Demo Approval') {
-            when { expression { params.env == 'dev' || params.env == 'test' } }
+            when { expression { params.env == 'test' || userInput == 'test' } }
             steps {
                 script {
                    userInput = input(id: 'userInput', message: 'Merge to Demo ?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
-                       description:'describing choices', name:'DemoChoice', choices: "test\ndemo\nproduction"]
+                       description:'describing choices', name:'DemoChoice', choices: "skip-Next\ndemo\nproduction"]
                     ])
                  }
             }
         }
         stage('Demo') {
-            when { expression { params.env == 'Demo' || userInput == 'demo' } }
+            when { expression { params.env == 'demo' || userInput == 'demo' } }
             steps { echo 'Deploying....' }
         }
         stage('Approval') {
-            when { expression { params.env == 'dev' || params.env == 'test'  || params.env == 'demo' } }
+            when { expression { params.env == 'demo' || userInput == 'demo' } }
             steps {
                 script {
                    userInput = input(id: 'userInput', message: 'Merge to Production ?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
-                       description:'describing choices', name:'Choice', choices: "test\ndemo\nproduction"]
+                       description:'describing choices', name:'Choice', choices: "skip-Next\nproduction"]
                     ])
                  }
             }
