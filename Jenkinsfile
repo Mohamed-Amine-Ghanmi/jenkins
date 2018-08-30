@@ -6,7 +6,7 @@ pipeline {
     
     parameters {
         choice(choices: 'dev\ntest\ndemo\nproduction', description: '', name: 'env')
-        string(name: 'App Version', defaultValue: '1.0.0', description: 'App version To Depoy')
+        string(name: 'version', defaultValue: '1.0.0', description: 'App version To Depoy')
     }
     
     stages {
@@ -15,7 +15,11 @@ pipeline {
         }
         stage('Dev') {
             when { expression { params.env == 'dev' } }
-            steps { echo 'Testing..' }
+            steps { 
+                echo 'Dev..' 
+                sh 'cd /tmp/Hello_world_Assignement'
+                sh './scripts/Build_Deploy_S3_Lambda_Apigw.sh $params.env $params.version'
+            }
         }
         stage('Test Approval') {
             when { expression { params.env == 'dev' } }
@@ -30,7 +34,7 @@ pipeline {
         }
         stage('Test') {
             when { expression { params.env == 'test' || userInput == 'test' } }
-            steps {  echo 'Deploying....' }
+            steps {  echo 'Test....' }
         }
         stage('Demo Approval') {
             when { expression { params.env == 'test' || userInput == 'test' } }
@@ -45,7 +49,7 @@ pipeline {
         }
         stage('Demo') {
             when { expression { params.env == 'demo' || userInput == 'demo' } }
-            steps { echo 'Deploying....' }
+            steps { echo 'Demo....' }
         }
         stage('Approval') {
             when { expression { params.env == 'demo' || userInput == 'demo' } }
