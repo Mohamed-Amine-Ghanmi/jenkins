@@ -29,7 +29,7 @@ pipeline {
             }
         }
         stage('Test') {
-            when { expression { params.env == 'test' || userInput['TestChoice'] == 'test' } }
+            when { expression { params.env == 'test' || userInput == 'test' } }
             steps {  echo 'Deploying....' }
         }
         stage('Demo Approval') {
@@ -43,7 +43,7 @@ pipeline {
             }
         }
         stage('Demo') {
-            when { expression { params.env == 'Demo' || userInput['DemoChoice'] == 'demo' } }
+            when { expression { params.env == 'Demo' || userInput == 'demo' } }
             steps { echo 'Deploying....' }
         }
         stage('Approval') {
@@ -57,7 +57,7 @@ pipeline {
             }
         }
         stage('Production') {
-             when { expression { params.env == 'production' || userInput['Choice'] == 'production' } }
+             when { expression { params.env == 'production' || userInput == 'production' } }
              steps {  echo 'Deploying....' }     
          }        
     }
