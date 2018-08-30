@@ -16,9 +16,10 @@ pipeline {
         stage('Dev') {
             when { expression { params.env == 'dev' } }
             steps { 
-                echo 'Dev..' 
-                sh 'cd /tmp/Hello_world_Assignement'
-                sh './scripts/Build_Deploy_S3_Lambda_Apigw.sh $params.env $params.version'
+                echo 'Dev..'
+                dir ('subdir') {
+                    sh './scripts/Build_Deploy_S3_Lambda_Apigw.sh ${params.env} ${params.version}'
+                }
             }
         }
         stage('Test Approval') {
