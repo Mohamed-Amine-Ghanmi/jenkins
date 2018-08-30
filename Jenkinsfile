@@ -7,6 +7,7 @@ pipeline {
     }
     
     stages {
+        def userInput
         stage('Build') {
             steps { echo 'Building..' }
         }
@@ -17,7 +18,7 @@ pipeline {
         stage('Test Approval') {
             steps {
                 script {
-                   def userInput = input(id: 'userInput', message: 'Merge to Test?',
+                   userInput = input(id: 'userInput', message: 'Merge to Test?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
                        description:'describing choices', name:'TestChoice', choices: "test\ndemo\nproduction"]
                     ])
@@ -32,7 +33,7 @@ pipeline {
         stage('Demo Approval') {
             steps {
                 script {
-                   def userInput = input(id: 'userInput', message: 'Merge to Demo ?',
+                   userInput = input(id: 'userInput', message: 'Merge to Demo ?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
                        description:'describing choices', name:'DemoChoice', choices: "test\ndemo\nproduction"]
                     ])
@@ -46,7 +47,7 @@ pipeline {
         stage('Approval') {
             steps {
                 script {
-                   def userInput = input(id: 'userInput', message: 'Merge to Production ?',
+                   userInput = input(id: 'userInput', message: 'Merge to Production ?',
                    parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
                        description:'describing choices', name:'Choice', choices: "test\ndemo\nproduction"]
                     ])
